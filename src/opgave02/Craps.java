@@ -25,7 +25,6 @@ public class Craps {
         do {
 
 
-            // Første kast 'come out roll'
             int førstekast = rollDice();
             System.out.println("Første kast: " + førstekast);
 
@@ -57,17 +56,16 @@ public class Craps {
                         break;
                     }
 
-                } while (true);  // Kører i loop indtil spilleren vinder eller taber
+                } while (true);
             }
 
-            // Spørger spilleren, om de vil spille igen
             System.out.println("Vil du spille igen? (ja/nej)");
             String svar = scanner.nextLine();
-            spiligen = svar.equals("ja");// Så programmet er ligeglad med om inputtet er ja, Ja, jA osv..
+            spiligen = svar.equals("ja");
 
         } while (spiligen);
 
-        // Udskriver antal vundne og tabte spil
+
         System.out.println("Spillet er slut.");
         System.out.println("Du har vundet " + vinderRunder + " spil.");
         System.out.println("Du har tabt " + runderTabt + " spil.");

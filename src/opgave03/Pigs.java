@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Pigs {
     private static int rollCount = 0;
     private static int roundCount = 0;
+    private static boolean wantsToPlay = true;
 
 
     public static void main(String[] args) {
@@ -12,7 +13,16 @@ public class Pigs {
         printRules();
         System.out.println();
 
-        playPig();
+        while (wantsToPlay == true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Klar til at starte spillet? ('ja/nej') ");
+            String answer = scanner.nextLine();
+            if (answer.equals("nej")) {
+                System.out.println("Du vil ikke spille, spillet er slut");
+                scanner.close();
+                wantsToPlay = false;
+            } else playPig();
+        }
 
         System.out.println();
         System.out.println("Tak for at spille Pig");
@@ -31,11 +41,6 @@ public class Pigs {
 
     public static void playPig() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Klar til at starte spillet? ('ja/nej') ");
-        String answer = scanner.nextLine();
-        if (answer.equals("nej")) {
-            System.out.println("Du vil ikke spille, spillet er slut");
-        }
         System.out.println("Hvad vil i spille til?");
         int spilLængde = scanner.nextInt();
 
@@ -44,7 +49,7 @@ public class Pigs {
         int nuværendeSpiller = 1;
         boolean spilVundet = false;
 
-        while (!answer.equals("nej") && spilVundet != true) {
+        while (spilVundet != true) {
             int rundePoint = 0;
             boolean fortsætSpil = true;
 
