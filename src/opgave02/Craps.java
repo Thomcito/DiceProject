@@ -1,37 +1,40 @@
 package opgave02;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Craps {
 
     public static void main(String[] args) {
+        System.out.println("Velkommen til Craps!");
+        System.out.println();
+        printrules();
+        System.out.println();
         playCraps();
+
     }
 
     public static void playCraps() {
         Scanner scanner = new Scanner(System.in);
-        Random rand = new Random();
-        int wins = 0;
-        int losses = 0;
+        int vinderRunder = 0;
+        int runderTabt = 0;
         boolean spiligen;
 
-        do {
-            System.out.println("Velkommen til Craps!");
-            System.out.println();
-            printrules();
-            System.out.println();
+        System.out.println("Spillet staret nu. Dit første slag er: ");
+        System.out.println();
 
-            // Første kast ('come out roll')
-            int førstekast = rollDice(rand);
+        do {
+
+
+            // Første kast 'come out roll'
+            int førstekast = rollDice();
             System.out.println("Første kast: " + førstekast);
 
             if (førstekast == 7 || førstekast == 11) {
                 System.out.println("Du har vundet!");
-                wins++;
+                vinderRunder++;
             } else if (førstekast == 2 || førstekast == 3 || førstekast == 12) {
                 System.out.println("Du har tabt!");
-                losses++;
+                runderTabt++;
             } else {
                 int point = førstekast;
                 System.out.println("Dit point er nu: " + point);
@@ -41,16 +44,16 @@ public class Craps {
                     System.out.println("Tryk Enter for at kaste igen...");
                     scanner.nextLine();
 
-                    nytkast = rollDice(rand);
+                    nytkast = rollDice();
                     System.out.println("Du kastede: " + nytkast);
 
                     if (nytkast == point) {
                         System.out.println("Du har vundet ved at kaste dit point!");
-                        wins++;
+                        vinderRunder++;
                         break;
                     } else if (nytkast == 7) {
                         System.out.println("Du har tabt ved at kaste 7.");
-                        losses++;
+                        runderTabt++;
                         break;
                     }
 
@@ -59,22 +62,22 @@ public class Craps {
 
             // Spørger spilleren, om de vil spille igen
             System.out.println("Vil du spille igen? (ja/nej)");
-            String response = scanner.nextLine();
-            spiligen = response.equalsIgnoreCase("ja"); // Så programmet er ligeglad med om inputtet er ja, Ja, jA osv..
+            String svar = scanner.nextLine();
+            spiligen = svar.equals("ja");// Så programmet er ligeglad med om inputtet er ja, Ja, jA osv..
 
         } while (spiligen);
 
         // Udskriver antal vundne og tabte spil
         System.out.println("Spillet er slut.");
-        System.out.println("Du har vundet " + wins + " spil.");
-        System.out.println("Du har tabt " + losses + " spil.");
+        System.out.println("Du har vundet " + vinderRunder + " spil.");
+        System.out.println("Du har tabt " + runderTabt + " spil.");
 
         scanner.close();
     }
 
-    public static int rollDice(Random rand) {
-        int terning1 = rand.nextInt(6) + 1;
-        int terning2 = rand.nextInt(6) + 1;
+    private static int rollDice() {
+        int terning1 = (int) (Math.random() * 6 + 1);
+        int terning2 = (int) (Math.random() * 6 + 1);
         return terning1 + terning2;
     }
 
