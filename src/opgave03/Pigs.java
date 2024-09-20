@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Pigs {
     private static int rollCount = 0;
+    private static int roundCount = 0;
 
 
     public static void main(String[] args) {
@@ -32,10 +33,11 @@ public class Pigs {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Klar til at starte spillet? ('ja/nej') ");
         String answer = scanner.nextLine();
-
-        if (answer.equals("nej")){
+        if (answer.equals("nej")) {
             System.out.println("Du vil ikke spille, spillet er slut");
         }
+        System.out.println("Hvad vil i spille til?");
+        int spilLængde = scanner.nextInt();
 
         int spiller1Point = 0;
         int spiller2Point = 0;
@@ -49,18 +51,20 @@ public class Pigs {
             System.out.println("--------------------------------------------------------");
             System.out.println("\nDet er nu " + "spiller " + nuværendeSpiller + "s tur");
 
-            System.out.println("Klar til at prøve lykken? ('ja/nej') : ");
+            System.out.println("Du prøver lykken! Tryk Enter: ");
             String svar = scanner.nextLine();
-            if (svar.equals("nej")) {
-                break;
-            }
+            System.out.println();
 
             while (fortsætSpil == true) {
                 int rulTerning = rollDie();
 
                 System.out.println("Du rullede " + rulTerning);
+                updateRoll();
 
-                if (rulTerning == 1) {
+                if (rulTerning == 2) {
+                    rundePoint = -1;
+                    fortsætSpil = false;
+                } else if (rulTerning == 1) {
                     System.out.println("Du ramte desværre " + rulTerning + ", du mister derfor denne rundes point");
                     rundePoint = 0;
                     fortsætSpil = false;
@@ -70,55 +74,71 @@ public class Pigs {
                     System.out.println("Tør du tage et kast mere? ('ja/nej') ");
                     svar = scanner.nextLine();
 
-                    if (svar.equals("nej")){
+                    if (svar.equals("nej")) {
                         fortsætSpil = false;
                     }
                 }
             }
 
+            if (nuværendeSpiller == 1) {
 
-            if (nuværendeSpiller == 1){
-                spiller1Point += rundePoint;
+                if (rundePoint == -1) {
+                    spiller1Point = 0;
+                } else {
+                    spiller1Point += rundePoint;
+                }
                 System.out.println("Spiller 1's nuværende point er: " + spiller1Point);
-                if (spiller1Point >= 100){
+                roundCount++;
+                if (spiller1Point >= spilLængde) {
                     spilVundet = true;
                     System.out.println("Spiller 1 vandt!");
                 } else {
                     nuværendeSpiller = 2;
                 }
 
-            }
-            else if (nuværendeSpiller == 2){
-                spiller2Point += rundePoint;
+            } else if (nuværendeSpiller == 2) {
+                if (rundePoint == -1) {
+                    spiller2Point = 0;
+                } else {
+                    spiller2Point += rundePoint;
+                }
                 System.out.println("Spiller 2's nuværende point er: " + spiller2Point);
-                if (spiller2Point >= 100){
+                roundCount++;
+                if (spiller2Point >= spilLængde) {
                     spilVundet = true;
                     System.out.println("Spiller 2 vandt!");
                 } else {
                     nuværendeSpiller = 1;
                 }
             }
-
-
-            updateStatistics();
         }
         printStatistics();
         scanner.close();
     }
 
-    private static int rollDie () {
-        return (int) (Math.random() * 6 + 1);
+    private static int rollDie() {
+        int terning1 = (int) (Math.random() * 6 + 1);
+        int terning2 = (int) (Math.random() * 6 + 1);
+
+        if (terning1 == 1 || terning2 == 1) return 1;
+
+        return terning1 + terning2;
     }
 
 
-    private static void updateStatistics () {
+    private static void updateRoll() {
         rollCount++;
     }
 
-    private static void printStatistics () {
-        System.out.println("\nResults:");
-        System.out.println("-------");
-        System.out.printf("%17s %4d\n", "Antal rul:", rollCount);
+    private static void updateCount() {
+        roundCount++;
+    }
+
+    private static void printStatistics() {
+        System.out.println("\n---------------------------------------------------------------------");
+        System.out.println("Spillerne har i alt slået: " + rollCount + " gange");
+        System.out.println("Der har i alt været: " + roundCount + " runder");
+        System.out.println("Det er i gennemsnit: " + (rollCount / roundCount) + " slag pr. rundte");
 
     }
 
