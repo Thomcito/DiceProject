@@ -143,7 +143,7 @@ public class Pigs {
         System.out.println("\n---------------------------------------------------------------------");
         System.out.println("Spillerne har i alt slået: " + rollCount + " gange");
         System.out.println("Der har i alt været: " + roundCount + " runder");
-        System.out.println("Det er i gennemsnit: " + (rollCount / roundCount) + " slag pr. rundte");
+        System.out.println("Det er i gennemsnit: " + (rollCount / roundCount) + " slag pr. runde");
 
     }
 
